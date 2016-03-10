@@ -1,0 +1,27 @@
+﻿{
+    "data": [
+        {
+            "environment": "test",
+            "key": "plain",
+            "value": "42"
+        },
+        {
+            "environment": "test",
+            "key": "advanced",
+            "values": [
+                {
+                    "value": "1"
+                },
+                {
+                    "value": "2",
+                    "effective-since": 1457632295
+                }
+            ]
+        },
+        {
+            "environment": "another-environment",
+            "key": "plain",
+            "value": "43"
+        }
+    ]
+}
