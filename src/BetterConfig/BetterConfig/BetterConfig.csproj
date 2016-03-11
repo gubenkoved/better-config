@@ -47,6 +47,7 @@
   <ItemGroup>
     <Compile Include="ConfigClient.cs" />
     <Compile Include="ConfigSettingScope.cs" />
+    <Compile Include="EffectiveSettingsEvaluator.cs" />
     <Compile Include="Helper.cs" />
     <Compile Include="JsonConfigStore.cs" />
     <Compile Include="ConfigurationManagerConfigStore.cs" />
