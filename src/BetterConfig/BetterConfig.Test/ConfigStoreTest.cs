@@ -18,8 +18,8 @@ namespace BetterConfig.Test
             Assert.IsNotNull(config.SingleOrDefault(x => x.Key == "a"));
             Assert.IsNotNull(config.SingleOrDefault(x => x.Key == "b"));
 
-            Assert.AreEqual("value", config.Single(x => x.Key == "a").Value.Value);
-            Assert.AreEqual("42", config.Single(x => x.Key == "b").Value.Value);
+            Assert.AreEqual("value", config.Single(x => x.Key == "a").Definition);
+            Assert.AreEqual("42", config.Single(x => x.Key == "b").Definition);
         }
 
         [TestMethod]
@@ -31,13 +31,10 @@ namespace BetterConfig.Test
 
             var config = provider.ReadAll();
 
-            Assert.AreEqual(3, config.Count());
-            Assert.AreEqual(2, config.Where(x => x.Environemnt == "test").Count());
+            Assert.AreEqual(4, config.Count());
+            Assert.AreEqual(2, config.Where(x => x.Scope.Environment == "E2").Count());
 
-            Assert.IsNotNull(config.Where(x => x.Environemnt == "test").FirstOrDefault(x => x.Key == "plain"));
-            Assert.IsNotNull(config.Where(x => x.Environemnt == "test").FirstOrDefault(x => x.Key == "advanced"));
-
-            Assert.AreEqual("42", config.Where(x => x.Environemnt == "test").FirstOrDefault(x => x.Key == "plain").Value.Value);
+            Assert.AreEqual("V4", config.Where(x => x.Scope.Environment == "E2").FirstOrDefault(x => x.Key == "K2").Definition);
         }
     }
 }

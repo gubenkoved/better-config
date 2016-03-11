@@ -10,6 +10,13 @@ namespace BetterConfig
 {
     public class JsonConfigStore : ConfigStoreBase
     {
+        public const string RootSettingsArrayKey = "settings";
+        public const string SettingKeyKey = "key";
+        public const string SettingValueKey = "value";
+        public const string SettingScopeEnvironmentKey = "environment";
+        public const string SettingScopeAppKey = "app";
+        public const string SettingScopeAppInstanceKey = "appInstance";
+
         public string JsonText { get; private set; }
 
         public JsonConfigStore(string json)
@@ -23,31 +30,38 @@ namespace BetterConfig
 
             var root = JObject.Parse(JsonText);
 
-            var data = root.Value<JArray>("data");
+            var data = root.Value<JArray>(RootSettingsArrayKey);
+
+            if (data == null)
+            {
+                throw new ConfigurationErrorsException($"Can NOT find root object element with settings: '{RootSettingsArrayKey}'");
+            }
 
             foreach (var item in data)
             {
-                string itemEnv = item.Value<string>("environment");
-                string itemKey = item.Value<string>("key");
-                string itemVal = item.Value<string>("value");
+                string iKey = item.Value<string>(SettingKeyKey);
+                string iVal = item.Value<string>(SettingValueKey);
 
-                if (itemVal != null) // simple syntax case
+                if (iKey == null)
                 {
-                    result.Add(new ConfigSetting(itemKey, itemVal)
+                    throw new ConfigurationErrorsException($"Can NOT find setting key on following element: {item.ToString()}");
+                }
+
+                if (iVal == null)
+                {
+                    throw new ConfigurationErrorsException($"Can NOT find setting value on following element: {item.ToString()}");
+                }
+
+                if (iVal != null) // simple syntax case
+                {
+                    result.Add(new ConfigSetting(iKey, iVal)
                     {
-                        Environemnt = itemEnv,
-                    });
-                } else // case with extended syntax
-                {
-                    var itemValues = item.Value<JArray>("values")
-                        .Select(jToken => new ConfigValue(jToken.Value<string>("value"))
+                        Scope = new ConfigSettingScope()
                         {
-                            EffectiveSinceUtc = Helper.FromEpoch(jToken.Value<int>("effective-since")),
-                        }).ToList();
-
-                    result.Add(new ConfigSetting(itemKey, itemValues)
-                    {
-                        Environemnt = itemEnv,
+                            Environment = item.Value<string>(SettingScopeEnvironmentKey),
+                            Application = item.Value<string>(SettingScopeAppKey),
+                            ApplicationInstance = item.Value<string>(SettingScopeAppInstanceKey),
+                        },
                     });
                 }
             }

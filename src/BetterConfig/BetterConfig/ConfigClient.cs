@@ -10,7 +10,7 @@ namespace BetterConfig
     {
         public ConfigStoreBase ConfigStore { get; private set; }
 
-        public string Environment { get; set; }
+        public ConfigSettingScope Scope { get; set; }
 
         public ConfigClient(ConfigStoreBase configStore)
         {
@@ -21,19 +21,9 @@ namespace BetterConfig
         {
             var setting = 
                 ConfigStore.ReadAll()
-                .Single(x => x.Environemnt == Environment
-                    && x.Key == key);
+                .Single(x => x.Key == key);
 
-            return CurrentValueFor(setting);
-        }
-
-        private string CurrentValueFor(ConfigSetting setting)
-        {
-            return setting
-                .Values
-                .OrderByDescending(x => x.EffectiveSinceUtc ?? DateTime.MinValue)
-                .First(x => (x.EffectiveSinceUtc ?? DateTime.MinValue) <= DateTime.UtcNow)
-                .Value;
+            return setting.Definition;
         }
     }
 }

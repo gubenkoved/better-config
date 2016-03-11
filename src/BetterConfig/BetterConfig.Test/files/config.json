@@ -1,27 +1,23 @@
 ﻿{
-    "data": [
+    "settings": [
         {
-            "environment": "test",
-            "key": "plain",
-            "value": "42"
+            "key": "K1",
+            "value": "V1"
         },
         {
-            "environment": "test",
-            "key": "advanced",
-            "values": [
-                {
-                    "value": "1"
-                },
-                {
-                    "value": "2",
-                    "effective-since": 1457632295
-                }
-            ]
+            "environment": "E1",
+            "key": "K1",
+            "value": "V2"
         },
         {
-            "environment": "another-environment",
-            "key": "plain",
-            "value": "43"
+            "environment": "E2",
+            "key": "K1",
+            "value": "V3"
+        },
+        {
+            "environment": "E2",
+            "key": "K2",
+            "value": "V4"
         }
     ]
 }

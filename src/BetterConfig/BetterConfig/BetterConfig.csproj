@@ -46,10 +46,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ConfigClient.cs" />
+    <Compile Include="ConfigSettingScope.cs" />
     <Compile Include="Helper.cs" />
     <Compile Include="JsonConfigStore.cs" />
     <Compile Include="ConfigurationManagerConfigStore.cs" />
-    <Compile Include="ConfigValue.cs" />
     <Compile Include="ConfigSetting.cs" />
     <Compile Include="ConfigStoreBase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
