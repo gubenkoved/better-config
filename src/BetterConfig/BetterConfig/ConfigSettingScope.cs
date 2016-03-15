@@ -11,7 +11,7 @@ namespace BetterConfig
         public string Environment { get; set; }
         public string Application { get; set; }
         public string ApplicationInstance { get; set; }
-        
+
         public bool IsEnvironmentBound
         {
             get
@@ -95,6 +95,22 @@ namespace BetterConfig
                 Environment = environment,
                 Application = app,
                 ApplicationInstance = appInstance,
+            };
+        }
+
+        public static ConfigSettingScope ForApp(string app)
+        {
+            return new ConfigSettingScope()
+            {
+                Application = app,
+            };
+        }
+
+        public static ConfigSettingScope ForEnvironment(string environment)
+        {
+            return new ConfigSettingScope()
+            {
+                Environment = environment,
             };
         }
     }
