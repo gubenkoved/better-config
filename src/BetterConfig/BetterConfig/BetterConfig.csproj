@@ -48,12 +48,15 @@
     <Compile Include="ConfigClient.cs" />
     <Compile Include="ConfigSettingScope.cs" />
     <Compile Include="EffectiveSettingsEvaluator.cs" />
+    <Compile Include="Exceptions\BetterConfigException.cs" />
     <Compile Include="Helper.cs" />
     <Compile Include="JsonConfigStore.cs" />
     <Compile Include="ConfigurationManagerConfigStore.cs" />
     <Compile Include="ConfigSetting.cs" />
     <Compile Include="ConfigStoreBase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ISettingsInterpolator.cs" />
+    <Compile Include="SettingsInterpolator.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
