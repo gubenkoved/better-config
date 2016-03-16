@@ -11,6 +11,78 @@ namespace BetterConfig.Test
     [TestClass]
     public class SettingsInterpolatorTest
     {
+        [TestClass]
+        public class EscapingTests
+        {
+            private SettingsInterpolator _interpolator = new SettingsInterpolator();
+
+            [TestMethod]
+            public void EscapeTest()
+            {
+                Assert.AreEqual(@"x", _interpolator.Escape(@"x"));
+                Assert.AreEqual(@"$x", _interpolator.Escape(@"$x"));
+                Assert.AreEqual(@"\${x}", _interpolator.Escape(@"${x}"));
+                Assert.AreEqual(@"\\\${x}", _interpolator.Escape(@"\${x}"));
+                Assert.AreEqual(@"\\\\\${x}", _interpolator.Escape(@"\\${x}"));
+                Assert.AreEqual(@"\\\\\\\${x}", _interpolator.Escape(@"\\\${x}"));
+
+                // if there is no candidates to be an expression to evaluate - we should not escape anything
+                Assert.AreEqual(@"do\not\e$cape{anything}here", _interpolator.Escape(@"do\not\e$cape{anything}here"));
+                Assert.AreEqual(@"$ {x}", _interpolator.Escape(@"$ {x}"));
+
+                // characters that not going to escape start of expression should not be escaped
+                Assert.AreEqual(@"\something\${x}", _interpolator.Escape(@"\something${x}"));
+            }
+
+            [TestMethod]
+            public void ShouldBeEvaluatedLiterallyTest()
+            {
+                var all = new[]
+                {
+                    new ConfigSetting("a", @"do\not\e$cape{anything}here"),
+                };
+
+                var actual = _interpolator.Interpolate(all);
+
+                Assert.AreEqual(@"do\not\e$cape{anything}here", actual["a"]);
+            }
+
+            [TestMethod]
+            public void EscapedReferenceTest()
+            {
+                var all = new[]
+                {
+                    new ConfigSetting("a", @"\${x}"),
+                    new ConfigSetting("b", @"\\\${x}"),
+                    new ConfigSetting("c", @"\\\\\${x}"),
+                };
+
+                var actual = _interpolator.Interpolate(all);
+
+                Assert.AreEqual(@"${x}", actual["a"]);
+                Assert.AreEqual(@"\${x}", actual["b"]);
+                Assert.AreEqual(@"\\${x}", actual["c"]);
+            }
+
+            [TestMethod]
+            public void EscapedEscapeCharReferenceTest()
+            {
+                var all = new[]
+                {
+                    new ConfigSetting("x", "x"),
+                    new ConfigSetting("a", @"\\${x}"),
+                    new ConfigSetting("b", @"\\\\${x}"),
+                    new ConfigSetting("c", @"\\\\\\${x}"),
+                };
+
+                var actual = _interpolator.Interpolate(all);
+
+                Assert.AreEqual(@"\x", actual["a"]);
+                Assert.AreEqual(@"\\x", actual["b"]);
+                Assert.AreEqual(@"\\\x", actual["c"]);
+            }
+        }
+
         private SettingsInterpolator _interpolator = new SettingsInterpolator();
 
         [TestMethod]
@@ -85,6 +157,18 @@ namespace BetterConfig.Test
             {
                 new ConfigSetting("a", "${b}"),
                 new ConfigSetting("b", "${a}"),
+            };
+
+            _interpolator.Interpolate(all);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(BetterConfigException))]
+        public void SelfReferencesTest()
+        {
+            var all = new[]
+            {
+                new ConfigSetting("a", "${a}"),
             };
 
             _interpolator.Interpolate(all);
