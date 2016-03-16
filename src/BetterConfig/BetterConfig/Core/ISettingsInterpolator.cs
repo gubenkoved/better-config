@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BetterConfig
+namespace BetterConfig.Core
 {
     public interface ISettingsInterpolator
     {

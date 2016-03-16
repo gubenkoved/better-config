@@ -1,4 +1,5 @@
-﻿using BetterConfig.Exceptions;
+﻿using BetterConfig.Core;
+using BetterConfig.Exceptions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;

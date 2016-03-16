@@ -1,10 +1,11 @@
-﻿using System;
+﻿using BetterConfig.Storage;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BetterConfig
+namespace BetterConfig.Core
 {
     public abstract class ConfigClientBase
     {

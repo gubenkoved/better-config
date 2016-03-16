@@ -7,7 +7,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
-namespace BetterConfig
+namespace BetterConfig.Core
 {
     /// <summary>
     /// Interpolates setting definition to the value

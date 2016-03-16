@@ -45,19 +45,19 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ConfigClientBase.cs" />
+    <Compile Include="Core\ConfigClientBase.cs" />
     <Compile Include="ConfigClient.cs" />
     <Compile Include="ConfigSettingScope.cs" />
-    <Compile Include="EffectiveSettingsEvaluator.cs" />
+    <Compile Include="Core\EffectiveSettingsEvaluator.cs" />
     <Compile Include="Exceptions\BetterConfigException.cs" />
-    <Compile Include="JsonConfigStore.cs" />
-    <Compile Include="ConfigurationManagerConfigStore.cs" />
+    <Compile Include="Storage\JsonConfigStore.cs" />
+    <Compile Include="Storage\ConfigurationManagerConfigStore.cs" />
     <Compile Include="ConfigSetting.cs" />
-    <Compile Include="ConfigStoreBase.cs" />
-    <Compile Include="ObjectConfigStore.cs" />
+    <Compile Include="Storage\ConfigStoreBase.cs" />
+    <Compile Include="Storage\ObjectConfigStore.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ISettingsInterpolator.cs" />
-    <Compile Include="SettingsInterpolator.cs" />
+    <Compile Include="Core\ISettingsInterpolator.cs" />
+    <Compile Include="Core\SettingsInterpolator.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
