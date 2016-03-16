@@ -13,7 +13,7 @@ namespace BetterConfig.Core
 
         public ConfigStoreBase ConfigStore { get; private set; }
 
-        public ConfigSettingScope Scope { get; set; }
+        public ConfigSettingScope Scope { get; private set; }
 
         public ISettingsInterpolator Interpolator
         {
@@ -32,9 +32,10 @@ namespace BetterConfig.Core
             }
         }
 
-        public ConfigClientBase(ConfigStoreBase configStore)
+        public ConfigClientBase(ConfigStoreBase configStore, ConfigSettingScope scope)
         {
             ConfigStore = configStore;
+            Scope = scope;
         }
 
         public virtual Dictionary<string, string> GetAll()

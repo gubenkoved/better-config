@@ -22,10 +22,7 @@ namespace BetterConfig.Test
                 new ConfigSetting("c", "3"),
             });
 
-            var client = new ConfigClient(ocs)
-            {
-                Scope = ConfigSettingScope.Global
-            };
+            var client = new ConfigClient(ocs, ConfigSettingScope.Global);
 
             Assert.AreEqual(3, client.GetAll().Count);
             Assert.AreEqual("1", client.Get("a"));
@@ -50,20 +47,14 @@ namespace BetterConfig.Test
             });
 
             #region Global
-            var globalClient = new ConfigClient(ocs)
-            {
-                Scope = ConfigSettingScope.Global
-            };
+            var globalClient = new ConfigClient(ocs, ConfigSettingScope.Global);
 
             Assert.AreEqual(1, globalClient.GetAll().Count);
-            Assert.AreEqual("1", globalClient.Get("a")); 
+            Assert.AreEqual("1", globalClient.Get("a"));
             #endregion
 
             #region App X
-            var appXClient = new ConfigClient(ocs)
-            {
-                Scope = ConfigSettingScope.ForApp("X")
-            };
+            var appXClient = new ConfigClient(ocs, ConfigSettingScope.ForApp("X"));
 
             Assert.AreEqual(2, appXClient.GetAll().Count);
             Assert.AreEqual("1", appXClient.Get("a"));
@@ -71,10 +62,7 @@ namespace BetterConfig.Test
             #endregion
 
             #region App Y
-            var appYClient = new ConfigClient(ocs)
-            {
-                Scope = ConfigSettingScope.ForApp("Y")
-            };
+            var appYClient = new ConfigClient(ocs, ConfigSettingScope.ForApp("Y"));
 
             Assert.AreEqual(2, appYClient.GetAll().Count);
             Assert.AreEqual("1", appYClient.Get("a"));
@@ -91,10 +79,7 @@ namespace BetterConfig.Test
                 new ConfigSetting("b", "2${a}")
             });
 
-            var globalClient = new ConfigClient(ocs)
-            {
-                Scope = ConfigSettingScope.Global
-            };
+            var globalClient = new ConfigClient(ocs, ConfigSettingScope.Global);
 
             Assert.AreEqual("21", globalClient.Get("b"));
         }
@@ -109,10 +94,7 @@ namespace BetterConfig.Test
                 new ConfigSetting("c", "${a}+${b}"),
             });
 
-            var globalClient = new ConfigClient(ocs)
-            {
-                Scope = ConfigSettingScope.Global
-            };
+            var globalClient = new ConfigClient(ocs, ConfigSettingScope.Global);
 
             Assert.AreEqual("1+21", globalClient.Get("c"));
         }
