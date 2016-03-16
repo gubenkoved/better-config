@@ -6,24 +6,11 @@ using System.Threading.Tasks;
 
 namespace BetterConfig
 {
-    public class ConfigClient
+    public class ConfigClient : ConfigClientBase
     {
-        public ConfigStoreBase ConfigStore { get; private set; }
-
-        public ConfigSettingScope Scope { get; set; }
-
         public ConfigClient(ConfigStoreBase configStore)
+            :base(configStore)
         {
-            ConfigStore = configStore;
-        }
-
-        public string Get(string key)
-        {
-            var setting = 
-                ConfigStore.ReadAll()
-                .Single(x => x.Key == key);
-
-            return setting.Definition;
         }
     }
 }
