@@ -60,8 +60,8 @@ namespace BetterConfig.Storage
                         Scope = new ConfigSettingScope()
                         {
                             Environment = item.Value<string>(SettingScopeEnvironmentKey),
-                            Application = item.Value<string>(SettingScopeAppKey),
-                            ApplicationInstance = item.Value<string>(SettingScopeAppInstanceKey),
+                            App = item.Value<string>(SettingScopeAppKey),
+                            AppInstance = item.Value<string>(SettingScopeAppInstanceKey),
                         },
                     });
                 }

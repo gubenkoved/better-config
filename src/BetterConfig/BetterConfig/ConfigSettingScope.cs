@@ -14,10 +14,10 @@ namespace BetterConfig
         public string Environment { get; set; }
 
         [DataMember]
-        public string Application { get; set; }
+        public string App { get; set; }
 
         [DataMember]
-        public string ApplicationInstance { get; set; }
+        public string AppInstance { get; set; }
 
         public bool IsEnvironmentBound
         {
@@ -26,18 +26,18 @@ namespace BetterConfig
                 return Environment != null;
             }
         }
-        public bool IsApplicationBound
+        public bool IsAppBound
         {
             get
             {
-                return Application != null;
+                return App != null;
             }
         }
-        public bool IsApplicationInstanceBound
+        public bool IsAppInstanceBound
         {
             get
             {
-                return ApplicationInstance != null;
+                return AppInstance != null;
             }
         }
 
@@ -46,8 +46,8 @@ namespace BetterConfig
             get
             {
                 return !IsEnvironmentBound
-                    && !IsApplicationBound
-                    && !IsApplicationInstanceBound;
+                    && !IsAppBound
+                    && !IsAppInstanceBound;
             }
         }
 
@@ -60,8 +60,8 @@ namespace BetterConfig
             get
             {
                 return (IsEnvironmentBound ? 1 : 0)
-                    + (IsApplicationBound ? 1 : 0) << 1
-                    + (IsApplicationInstanceBound ? 1 : 0) << 2;
+                    + (IsAppBound ? 1 : 0) << 1
+                    + (IsAppInstanceBound ? 1 : 0) << 2;
             }
         }
 
@@ -91,8 +91,35 @@ namespace BetterConfig
             // otherwise true;
 
             return (!IsEnvironmentBound || Environment == anotherScope.Environment)
-                && (!IsApplicationBound || Application == anotherScope.Application)
-                && (!IsApplicationInstanceBound || ApplicationInstance == anotherScope.ApplicationInstance);
+                && (!IsAppBound || App == anotherScope.App)
+                && (!IsAppInstanceBound || AppInstance == anotherScope.AppInstance);
+        }
+
+        /// <summary>
+        /// Calculates "intersection" between scopes. If consider scope as set of filters and restrictions
+        /// then "intersection" of scopes is equally or more restrictive filter that is subset of both.
+        /// Lack of "intersection" means that conditions/filters are not compatible.
+        /// 
+        /// Example:
+        ///     (DEV, null, null) intersection (null, APP1, null)   = (DEV, APP1, null)
+        ///     (DEV, null, null) intersection (QA, null, null)     = null
+        ///     (DEV, APP1, null) intersection (null, APP1, null)   = (DEV, APP1, null)
+        /// </summary>
+        public static ConfigSettingScope? Intersect(ConfigSettingScope s1, ConfigSettingScope s2)
+        {
+            if (s1.IsEnvironmentBound && s2.IsEnvironmentBound && s1.Environment != s2.Environment
+                || s1.IsAppBound && s2.IsAppBound && s1.App != s2.App
+                || s1.IsAppInstanceBound && s2.IsAppInstanceBound && s1.AppInstance != s2.AppInstance)
+            {
+                return null;
+            }
+
+            return new ConfigSettingScope()
+            {
+                Environment = s1.Environment ?? s2.Environment,
+                App = s1.App ?? s2.App,
+                AppInstance = s1.AppInstance ?? s2.AppInstance,
+            };
         }
 
         public static ConfigSettingScope Create(string environment, string app = null, string appInstance = null)
@@ -100,8 +127,8 @@ namespace BetterConfig
             return new ConfigSettingScope()
             {
                 Environment = environment,
-                Application = app,
-                ApplicationInstance = appInstance,
+                App = app,
+                AppInstance = appInstance,
             };
         }
 
@@ -109,7 +136,7 @@ namespace BetterConfig
         {
             return new ConfigSettingScope()
             {
-                Application = app,
+                App = app,
             };
         }
 
