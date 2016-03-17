@@ -27,7 +27,7 @@ namespace BetterConfig.Core
 
         static SettingsInterpolator()
         {
-            _referenceFragmentRegex = new Regex(@"\$\{(?<ref>[a-z_-]*)\}",
+            _referenceFragmentRegex = new Regex(@"\$\{(?<ref>[0-9a-z_-]*)\}",
                 RegexOptions.Compiled
                 | RegexOptions.CultureInvariant
                 | RegexOptions.IgnoreCase);

@@ -1,0 +1,27 @@
+﻿{
+    "settings": [
+        {
+            "key": "K1",
+            "value": "V1"
+        },
+        {
+            "key": "K1_2",
+            "value": "K1:${K1}"
+        },
+        {
+            "environment": "E1",
+            "key": "K1",
+            "value": "V2"
+        },
+        {
+            "environment": "E2",
+            "key": "K1",
+            "value": "V3"
+        },
+        {
+            "environment": "E2",
+            "key": "K2",
+            "value": "V4"
+        }
+    ]
+}

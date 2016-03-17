@@ -1,15 +1,22 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace BetterConfig
 {
+    [DataContract]
     public struct ConfigSettingScope
     {
+        [DataMember]
         public string Environment { get; set; }
+
+        [DataMember]
         public string Application { get; set; }
+
+        [DataMember]
         public string ApplicationInstance { get; set; }
 
         public bool IsEnvironmentBound
