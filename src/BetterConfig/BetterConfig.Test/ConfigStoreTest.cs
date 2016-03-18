@@ -26,9 +26,7 @@ namespace BetterConfig.Test
         [TestMethod]
         public void JsonConfigProvider()
         {
-            var json = File.ReadAllText("./files/config.json");
-
-            var provider = new JsonConfigStore(json);
+            var provider = new JsonConfigStore("./files/config.json");
 
             var config = provider.Read();
 

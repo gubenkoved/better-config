@@ -3,6 +3,7 @@ using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -18,18 +19,20 @@ namespace BetterConfig.Storage
         public const string SettingScopeAppKey = "app";
         public const string SettingScopeAppInstanceKey = "appInstance";
 
-        public string JsonText { get; private set; }
+        public string Path { get; private set; }
 
-        public JsonConfigStore(string json)
+        public JsonConfigStore(string pathToJson)
         {
-            JsonText = json;
+            Path = pathToJson;
         }
 
         public override Config Read()
         {
+            string jsonText = File.ReadAllText(Path);
+
             var settings = new List<ConfigSetting>();
 
-            var root = JObject.Parse(JsonText);
+            var root = JObject.Parse(jsonText);
 
             var data = root.Value<JArray>(RootSettingsArrayKey);
 

@@ -12,7 +12,7 @@ namespace BetterConfig.Storage
     {
         public override Config Read()
         {
-            var settings = new List<ConfigSetting>();
+           var settings = new List<ConfigSetting>();
 
             foreach (var key in ConfigurationManager.AppSettings.AllKeys)
             {
