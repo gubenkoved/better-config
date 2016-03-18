@@ -14,13 +14,13 @@ namespace BetterConfig.Test
         {
             var provider = new ConfigurationManagerConfigStore();
 
-            var config = provider.ReadAll();
+            var config = provider.Read();
 
-            Assert.IsNotNull(config.SingleOrDefault(x => x.Key == "a"));
-            Assert.IsNotNull(config.SingleOrDefault(x => x.Key == "b"));
+            Assert.IsNotNull(config.Settings.SingleOrDefault(x => x.Key == "a"));
+            Assert.IsNotNull(config.Settings.SingleOrDefault(x => x.Key == "b"));
 
-            Assert.AreEqual("value", config.Single(x => x.Key == "a").Definition);
-            Assert.AreEqual("42", config.Single(x => x.Key == "b").Definition);
+            Assert.AreEqual("value", config.Settings.Single(x => x.Key == "a").Definition);
+            Assert.AreEqual("42", config.Settings.Single(x => x.Key == "b").Definition);
         }
 
         [TestMethod]
@@ -30,12 +30,13 @@ namespace BetterConfig.Test
 
             var provider = new JsonConfigStore(json);
 
-            var config = provider.ReadAll();
+            var config = provider.Read();
 
-            Assert.AreEqual(4, config.Count());
-            Assert.AreEqual(2, config.Where(x => x.Scope.Environment == "E2").Count());
+            Assert.AreEqual(4, config.Settings.Count());
+            Assert.AreEqual(2, config.Settings.Where(x => x.Scope.Environment == "E2").Count());
 
-            Assert.AreEqual("V4", config.Where(x => x.Scope.Environment == "E2").FirstOrDefault(x => x.Key == "K2").Definition);
+            Assert.AreEqual("V4", config.Settings.Where(x => x.Scope.Environment == "E2")
+                .FirstOrDefault(x => x.Key == "K2").Definition);
         }
     }
 }

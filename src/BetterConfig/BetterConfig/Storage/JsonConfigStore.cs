@@ -25,9 +25,9 @@ namespace BetterConfig.Storage
             JsonText = json;
         }
 
-        public override IEnumerable<ConfigSetting> ReadAll()
+        public override Config Read()
         {
-            var result = new List<ConfigSetting>();
+            var settings = new List<ConfigSetting>();
 
             var root = JObject.Parse(JsonText);
 
@@ -55,7 +55,7 @@ namespace BetterConfig.Storage
 
                 if (iVal != null) // simple syntax case
                 {
-                    result.Add(new ConfigSetting(iKey, iVal)
+                    settings.Add(new ConfigSetting(iKey, iVal)
                     {
                         Scope = new ConfigSettingScope()
                         {
@@ -67,7 +67,15 @@ namespace BetterConfig.Storage
                 }
             }
 
-            return result;
+            return new Config()
+            {
+                Settings = settings,
+            };
+        }
+
+        public override void Save(Config config)
+        {
+            throw new NotImplementedException();
         }
     }
 }

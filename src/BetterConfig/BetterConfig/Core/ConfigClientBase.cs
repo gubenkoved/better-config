@@ -40,7 +40,9 @@ namespace BetterConfig.Core
 
         public virtual Dictionary<string, string> GetAll()
         {
-            IEnumerable<ConfigSetting> allSettings = ConfigStore.ReadAll();
+            Config config = ConfigStore.Read();
+
+            IEnumerable<ConfigSetting> allSettings = config.Settings;
 
             IEnumerable<ConfigSetting> effective = EffectiveSettingsEvaluator.GetEffective(allSettings, Scope);
 

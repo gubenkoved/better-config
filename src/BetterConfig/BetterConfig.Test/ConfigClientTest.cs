@@ -15,11 +15,14 @@ namespace BetterConfig.Test
         [TestMethod]
         public void BasicTest()
         {
-            var ocs = new ObjectConfigStore(() => new[]
+            var ocs = new ObjectConfigStore(() => new Config()
             {
-                new ConfigSetting("a", "1"),
-                new ConfigSetting("b", "2"),
-                new ConfigSetting("c", "3"),
+                Settings = new[]
+                {
+                    new ConfigSetting("a", "1"),
+                    new ConfigSetting("b", "2"),
+                    new ConfigSetting("c", "3"),
+                }
             });
 
             var client = new ConfigClient(ocs, ConfigSettingScope.Global);
@@ -33,17 +36,20 @@ namespace BetterConfig.Test
         [TestMethod]
         public void BasicScopingTest()
         {
-            var ocs = new ObjectConfigStore(() => new[]
+            var ocs = new ObjectConfigStore(() => new Config()
             {
-                new ConfigSetting("a", "1"),
-                new ConfigSetting("b", "2")
+                Settings = new[]
                 {
-                    Scope = ConfigSettingScope.ForApp("X")
-                },
-                new ConfigSetting("b", "3")
-                {
-                    Scope = ConfigSettingScope.ForApp("Y")
-                },
+                    new ConfigSetting("a", "1"),
+                    new ConfigSetting("b", "2")
+                    {
+                        Scope = ConfigSettingScope.ForApp("X")
+                    },
+                    new ConfigSetting("b", "3")
+                    {
+                        Scope = ConfigSettingScope.ForApp("Y")
+                    },
+                }
             });
 
             #region Global
@@ -73,10 +79,13 @@ namespace BetterConfig.Test
         [TestMethod]
         public void BasicReferencesTest()
         {
-            var ocs = new ObjectConfigStore(() => new[]
+            var ocs = new ObjectConfigStore(() => new Config()
             {
-                new ConfigSetting("a", "1"),
-                new ConfigSetting("b", "2${a}")
+                Settings = new[]
+                {
+                    new ConfigSetting("a", "1"),
+                    new ConfigSetting("b", "2${a}")
+                }
             });
 
             var globalClient = new ConfigClient(ocs, ConfigSettingScope.Global);
@@ -87,11 +96,14 @@ namespace BetterConfig.Test
         [TestMethod]
         public void MultiLevelReferencesTest()
         {
-            var ocs = new ObjectConfigStore(() => new[]
+            var ocs = new ObjectConfigStore(() => new Config()
             {
-                new ConfigSetting("a", "1"),
-                new ConfigSetting("b", "2${a}"),
-                new ConfigSetting("c", "${a}+${b}"),
+                Settings = new[]
+                {
+                    new ConfigSetting("a", "1"),
+                    new ConfigSetting("b", "2${a}"),
+                    new ConfigSetting("c", "${a}+${b}"),
+                }
             });
 
             var globalClient = new ConfigClient(ocs, ConfigSettingScope.Global);

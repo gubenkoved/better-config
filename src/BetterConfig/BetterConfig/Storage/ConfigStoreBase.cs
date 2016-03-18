@@ -9,6 +9,8 @@ namespace BetterConfig.Storage
 {
     public abstract class ConfigStoreBase
     {
-        public abstract IEnumerable<ConfigSetting> ReadAll();
+        public abstract Config Read();
+
+        public abstract void Save(Config config);
     }
 }

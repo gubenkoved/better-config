@@ -14,7 +14,7 @@ namespace BetterConfig.Server.Controllers
     [RoutePrefix("api/config")]
     public class ConfigController : ApiController
     {
-        public static IEnumerable<ConfigSetting> _config;
+        public static Config _config;
 
         public ConfigController()
         {
@@ -26,13 +26,13 @@ namespace BetterConfig.Server.Controllers
 
                 var provider = new JsonConfigStore(json);
 
-                _config = provider.ReadAll();
+                _config = provider.Read();
             }
         }
 
         [Route("")]
         [HttpGet]
-        public IEnumerable<ConfigSetting> GetAll()
+        public Config GetAll()
         {
             return _config;
         }

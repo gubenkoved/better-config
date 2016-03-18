@@ -9,22 +9,27 @@ namespace BetterConfig.Storage
 {
     public class ObjectConfigStore : ConfigStoreBase
     {
-        private IEnumerable<ConfigSetting> _settings;
-        private Func<IEnumerable<ConfigSetting>> _func;
+        private Config _config;
+        private Func<Config> _func;
 
-        public ObjectConfigStore(IEnumerable<ConfigSetting> settings)
+        public ObjectConfigStore(Config config)
         {
-            _settings = settings;
+            _config = config;
         }
 
-        public ObjectConfigStore(Func<IEnumerable<ConfigSetting>> generator)
+        public ObjectConfigStore(Func<Config> generator)
         {
             _func = generator;
         }
 
-        public override IEnumerable<ConfigSetting> ReadAll()
+        public override Config Read()
         {
-            return _settings ?? _func();
+            return _config ?? _func();
+        }
+
+        public override void Save(Config config)
+        {
+            throw new NotImplementedException();
         }
     }
 }
