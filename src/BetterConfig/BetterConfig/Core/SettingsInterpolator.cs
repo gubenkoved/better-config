@@ -1,11 +1,7 @@
-﻿using BetterConfig.Exceptions;
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
+using BetterConfig.Exceptions;
 
 namespace BetterConfig.Core
 {
@@ -36,9 +32,7 @@ namespace BetterConfig.Core
         public Dictionary<string, string> Interpolate(IEnumerable<ConfigSetting> settings)
         {
             if (settings.Select(x => x.Key).Distinct().Count() != settings.Count())
-            {
                 throw new BetterConfigException("Settings set must not contain items with same keys");
-            }
 
             var evaluated = new Dictionary<string, string>();
 
@@ -80,9 +74,7 @@ namespace BetterConfig.Core
                                 var refKey = refMatch.Groups["ref"].Value;
 
                                 if (refKey.Length == 0)
-                                {
                                     throw new BetterConfigException("Reference is malformed, because referenced key is empty");
-                                }
 
                                 evaluationResult = evaluationResult.Replace(refMatch.Value, evaluated[refKey]);
                             }
@@ -174,7 +166,6 @@ namespace BetterConfig.Core
                 #endregion
             }
             #endregion
-
 
             return annotation;
         }

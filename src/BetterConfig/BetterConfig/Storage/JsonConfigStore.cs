@@ -1,12 +1,8 @@
-﻿using BetterConfig.Core;
-using Newtonsoft.Json.Linq;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Configuration;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using BetterConfig.Exceptions;
+using Newtonsoft.Json.Linq;
 
 namespace BetterConfig.Storage
 {
@@ -37,9 +33,7 @@ namespace BetterConfig.Storage
             var data = root.Value<JArray>(RootSettingsArrayKey);
 
             if (data == null)
-            {
-                throw new ConfigurationErrorsException($"Can NOT find root object element with settings: '{RootSettingsArrayKey}'");
-            }
+                throw new BetterConfigException($"Can NOT find root object element with settings: '{RootSettingsArrayKey}'");
 
             foreach (var item in data)
             {
@@ -47,14 +41,10 @@ namespace BetterConfig.Storage
                 string iVal = item.Value<string>(SettingValueKey);
 
                 if (iKey == null)
-                {
-                    throw new ConfigurationErrorsException($"Can NOT find setting key on following element: {item.ToString()}");
-                }
+                    throw new BetterConfigException($"Can NOT find setting key on following element: {item.ToString()}");
 
                 if (iVal == null)
-                {
-                    throw new ConfigurationErrorsException($"Can NOT find setting value on following element: {item.ToString()}");
-                }
+                    throw new BetterConfigException($"Can NOT find setting value on following element: {item.ToString()}");
 
                 if (iVal != null) // simple syntax case
                 {

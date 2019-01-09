@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using BetterConfig.Exceptions;
 
 namespace BetterConfig.Core
 {
@@ -34,14 +30,10 @@ namespace BetterConfig.Core
                     else // override if bigger priority
                     {
                         if (item.Scope.Priority == effective[item.Key].Scope.Priority)
-                        {
-                            throw new ConfigurationErrorsException($"Ambiguity between following two settings found: '{item}' and '{effective[item.Key]}'");
-                        }
+                            throw new BetterConfigException($"Ambiguity between following two settings found: '{item}' and '{effective[item.Key]}'");
 
                         if (item.Scope.Priority > effective[item.Key].Scope.Priority)
-                        {
                             effective[item.Key] = item;
-                        }
                     }
                 }
             }
