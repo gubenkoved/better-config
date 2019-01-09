@@ -17,6 +17,14 @@
 
 * Need to decide whether interpolation (expanding references between config variables) is server or client concept... This decisions has some implications, for instance, when interpolation is client concept then client will be forced to get multiple config values during a request of the a single one because of the possible cross refereneces
 
+* Figure out how to deal with ambiguity
+
+  Consider for instance that there are following settings:
+  x = 1 for tag `app:myService`
+  x = 2 for tag `env:dev`
+
+  ... then the actual scope/context is `env:dev`, `app:myService`; both settings are matches; logic rules needs to be set up in order to pick one of the settings for these cases; "tags" should probably have weight that in case of match increases priority of the setting (e.g. `app:*` has weight of 16 and `env:*` has weight of 1, then x=1 wins with total weight of 16 against 1) 
+
 # Summary
 
 It feels that it's better to start from scratch if I ever get incentive to continue working on this thing.
